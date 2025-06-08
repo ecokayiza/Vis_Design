@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.secret_key = "asiduha98wudbha9dha9dhaw9d*@"
 
 ### API 配置
-APIKEY = 'sk-3b4a3912e8584a0f8c38922f11e6f15e'  
+APIKEY = 'your api key'  
 BASEURL = 'https://api.deepseek.com'
 ###
 
