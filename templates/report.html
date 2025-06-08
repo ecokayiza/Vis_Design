@@ -92,13 +92,15 @@
                                         markdownContent += e.data;
                                         processedContent += e.data;
                                         processedContent = fixMarkdown(processedContent); 
-
-                                        summaryDiv.innerHTML = marked.parse(processedContent, { 
+                                        var parsedMarkdownContent = marked.parse(processedContent, { 
                                                                         pedantic: false,
                                                                         gfm: true, 
                                                                         breaks: true,
                                                                         smartLists: true,
-                                                                        xhtml: true,}); 
+                                                                        xhtml: true,});
+                                        summaryDiv.innerHTML = parsedMarkdownContent;
+
+                                        localStorage.setItem('ai_summary', parsedMarkdownContent);
                                     
                                     };
                                     es.onerror = function() {
@@ -109,6 +111,15 @@
                                         console.log('Processed:\n', processedContent);
                                     };
                                 };
+                            </script>
+                            <script>
+                                // 页面加载时自动恢复
+                                window.addEventListener('DOMContentLoaded', function() {
+                                    var saved = localStorage.getItem('ai_summary');
+                                    if (saved) {
+                                        document.getElementById('ai-summary').innerHTML = saved;
+                                    }
+                                });
                             </script>
                         </div>
                         <div class="card-footer text-end bg-light">
