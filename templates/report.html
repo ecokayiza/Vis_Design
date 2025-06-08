@@ -51,17 +51,15 @@
                                     var processedContent = '';
      
                                     function fixMarkdown(md) {
-                                        // 删除所有流式数据自带的换行
-                                        md = md.replace(/\r?\n/g, '');
+                                        //把 <br> 替换为换行
+                                        // md = md.replace(/<br>/g, '\n');
 
                                         // 1. 标题（#、##、###等）前后加换行，只处理行首的#
                                         md = md.replace(/(#+)([^\s#])/g, '$1 $2'); // #后补空格
                                         md = md.replace(/(#+ .+?)(?=(#+|$))/g, '\n$1\n'); // 标题前后加换行
-
-                                        // 2. 有序列表项（如1. 2. 3.）前加换行，避免数字被误拆，要求数字后有点和空格
-                                        // md = md.replace(/(\d+\.\s)/g, '\n$1');
-                                        // 2. 有序列表项（如1. 2. 3.）前加换行，支持“数字. 空格”或“数字. 文字”
-                                        md = md.replace(/(\d+\.(?:\s|[^\d\s]))/g, '\n$1');
+                                        
+                                        // 2. 有序列表项（1.、2.等）前后加换行
+                                        md = md.replace(/(^|\n)(\d+\.\s)/g, '\n\n$2');
 
                                         // 3. 无序列表项（- 或 *）前加换行
                                         md = md.replace(/([^\n])(- |\* )/g, '$1\n$2');
@@ -81,6 +79,8 @@
                                         
                                         // 7. 去除首尾空白
                                         md = md.trim();
+                                        // 8. 确保首行有换行符
+                                        if (!md.startsWith('\n')) md = '\n' + md;
 
                                         return md;
                                     } 
@@ -97,7 +97,7 @@
                                                                         gfm: true, 
                                                                         breaks: true,
                                                                         smartLists: true,
-                                                                        xhtml: true,});
+                                                                        });
                                         summaryDiv.innerHTML = parsedMarkdownContent;
 
                                         localStorage.setItem('ai_summary', parsedMarkdownContent);
