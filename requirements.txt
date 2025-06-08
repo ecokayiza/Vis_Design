@@ -1,5 +1,4 @@
 flask
-matplotlib
 openpyxl
 flask-sqlalchemy
 openai
