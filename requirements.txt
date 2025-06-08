@@ -2,3 +2,4 @@ flask
 openpyxl
 flask-sqlalchemy
 openai
+python-dateutil
